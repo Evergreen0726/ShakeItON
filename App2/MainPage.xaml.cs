@@ -16,9 +16,10 @@ namespace App2
 {
     public sealed partial class MainPage : Page
     {
+        //加速度传感器变量
         Accelerometer acc;
         private uint reportinterval;
-
+        //判断LED是否打开变量
         bool flag = false;
 
         public MainPage()
@@ -31,26 +32,41 @@ namespace App2
             acc = Accelerometer.GetDefault();
  
             if (acc != null)
-            {
-                // Select a report interval that is both suitable for the purposes of the app and supported by the sensor.
-                // This value will be used later to activate the sensor.
-                uint minReportInterval = acc.MinimumReportInterval;
+            { 
+                //设置加速度传感器读数间隔
                 reportinterval = 180;
             }
         }
 
+        // Select a report interval that is both suitable for the purposes of the app and supported by the sensor.
+        // This value will be used later to activate the sensor.
+        // uint minReportInterval = acc.MinimumReportInterval;
+
+        /// <summary>
+        /// 在此页将要在 Frame 中显示时进行调用。
+        /// </summary>
+        /// <param name="e">描述如何访问此页的事件数据。
+        /// 此参数通常用于配置页。</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //将按键设置为可按下
             button.IsEnabled = true;
         }
+
+        /// <summary>
+        /// 在离开此页时调用。
+        /// </summary>
+        /// <param name="e">描述如何导航此页的事件数据。</param>
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             if (button.IsEnabled)
             {
+                //窗口不再可见
                 Window.Current.VisibilityChanged -= new WindowVisibilityChangedEventHandler(VisibilityChanged);
+                //停止ReadingChanged事件
                 acc.ReadingChanged -= new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(ReadingChanged);
 
-                // Restore the default report interval to release resources while the sensor is not in use
+                //传感器不再使用，重置读数间隔
                 acc.ReportInterval = 0;
             }
 
@@ -78,12 +94,13 @@ namespace App2
         {
             if (acc != null)
             {
-                // Establish the report interval
+                //设置加速度传感器读数间隔
                 acc.ReportInterval = reportinterval;
-
+                //处理当前程序窗口的VisibilityChanged事件，当窗口可见时才读取加速度数据
                 Window.Current.VisibilityChanged += new WindowVisibilityChangedEventHandler(VisibilityChanged);
+                //当有新的读数报告时，会发生ReadingChanged事件，需处理该事件
                 acc.ReadingChanged += new TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs>(ReadingChanged);
-
+                //禁用按键
                 button.IsEnabled = false;
             }
         }
@@ -92,15 +109,18 @@ namespace App2
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                //异步读取加速度数据
                 AccelerometerReading reading = e.Reading;
                 statusTextBlock.Text = "状态：正在接收加速度数据";
+                //将三轴加速度数据显示
                 xTextBlock.Text = String.Format("{0,5:0.00}", reading.AccelerationX);
                 yTextBlock.Text = String.Format("{0,5:0.00}", reading.AccelerationY);
                 zTextBlock.Text = String.Format("{0,5:0.00}", reading.AccelerationZ);
                 System.Diagnostics.Debug.WriteLine(flag);
-
+                //判断是否出现摇一摇操作
                 if (Math.Abs(reading.AccelerationX) > 1.7d || Math.Abs(reading.AccelerationY) > 1.7d || Math.Abs(reading.AccelerationZ + 1) > 1.8d)
                 {
+                    //判断开启还是关闭LED
                     Judgeflag();
                     System.Diagnostics.Debug.WriteLine("shake" + flag);
                 }
@@ -109,12 +129,14 @@ namespace App2
                 
         private void Judgeflag()
         {
+            //若开启，则关闭
             if (flag == true)
             {
                 CaptureOperator.CloseTorch();
                 flag = false;
                 textBlock.Text = "Shake It ON!";
             }
+            //若关闭，则开启
             else
             {
                 CaptureOperator.OpenTorch();
@@ -138,11 +160,7 @@ namespace App2
     }
 
         /*
-        /// <summary>
-        /// 在此页将要在 Frame 中显示时进行调用。
-        /// </summary>
-        /// <param name="e">描述如何访问此页的事件数据。
-        /// 此参数通常用于配置页。</param>
+        
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             WebViewControl.Navigate(HomeUri);
@@ -150,10 +168,7 @@ namespace App2
             HardwareButtons.BackPressed += this.MainPage_BackPressed;
         }
 
-        /// <summary>
-        /// 在离开此页时调用。
-        /// </summary>
-        /// <param name="e">描述如何导航此页的事件数据。</param>
+        
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             HardwareButtons.BackPressed -= this.MainPage_BackPressed;

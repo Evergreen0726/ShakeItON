@@ -2,7 +2,6 @@
   <ProductFeatures>
     <HardwareRequirements>
       <Requirement Name="ID_REQ_REARCAMERA" />
-      <Requirement Name="ID_REQ_GYROSCOPE" />
     </HardwareRequirements>
   </ProductFeatures>
 </StoreManifest>

@@ -29,7 +29,16 @@
         </CommandBar>
     </Page.BottomAppBar>
     <Grid HorizontalAlignment="Left" Height="614" VerticalAlignment="Top" Width="384" Margin="0,0,0,-58">
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Shake It ON!" Width="384" Margin="0,50,0,414" FontSize="65"/>
+        <TextBlock 
+            x:Name="textBlock" 
+            HorizontalAlignment="Left" 
+            TextWrapping="Wrap" 
+            Text="Shake It ON!" 
+            Width="384" 
+            Margin="0,50,0,414" 
+            FontSize="65"/>
+        
+        
         <TextBlock x:Name="statusTextBlock" HorizontalAlignment="Left" Height="25" Margin="80,200,0,0" TextWrapping="Wrap" Text="状态：" VerticalAlignment="Top" Width="260" FontSize="20"/>
         <TextBlock x:Name="xTextBlock" HorizontalAlignment="Left" Height="25" Margin="120,250,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" FontSize="20"/>
         <TextBlock x:Name="yTextBlock" HorizontalAlignment="Left" Height="25" Margin="120,300,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="220" FontSize="20"/>
@@ -38,7 +47,16 @@
         <TextBlock x:Name="yTextBox" HorizontalAlignment="Left" Height="25" Margin="85,300,0,0" TextWrapping="Wrap" Text="Y：" VerticalAlignment="Top" Width="50" FontSize="20"/>
         <TextBlock x:Name="zTextBox" HorizontalAlignment="Left" Height="25" Margin="85,350,0,0" TextWrapping="Wrap" Text="Z：" VerticalAlignment="Top" Width="50" FontSize="20"/>
 
-        <Button x:Name="button" Content="Start" HorizontalAlignment="Left" Height="36" Margin="138,400,0,0" VerticalAlignment="Top" Width="65" Click="ShakeItOn"/>
+        <Button 
+            x:Name="button" 
+            Content="Start" 
+            HorizontalAlignment="Left" 
+            Height="36" 
+            Margin="138,400,0,0" 
+            VerticalAlignment="Top" 
+            Width="65" 
+            Click="ShakeItOn"/>
+        
         <TextBlock x:Name="TextBlock" HorizontalAlignment="Left" Height="25" Margin="90,500,0,0" TextWrapping="Wrap" Text="Powered By Evergreen" VerticalAlignment="Top" Width="280" FontSize="20"/>
     </Grid>
 
